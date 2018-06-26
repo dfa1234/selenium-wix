@@ -1,4 +1,4 @@
-import {COUPONS_ESHOP_BP} from "./datas/eshop-bp";
+import {COUPONS} from "./datas/eshop-bp";
 
 require('chromedriver');
 import {By, Key, until} from  'selenium-webdriver';
@@ -25,9 +25,10 @@ import {LOGIN_WIX, PASSWORD_WIX, PRICE} from "./config";
 
         //We finally entered to the console!
 
-        for(let KEY of COUPONS_ESHOP_BP){
+        for(let KEY of COUPONS){
+
             console.log(KEY);
-            //await driver.findElement(By.xpath("//div[@id='root']/div/div[2]/div[2]/div[2]/div/div/div/div/store-manager/div/main/coupon-list/page-header/div/div[2]/div/header-actions/button/span")).click();
+
             await driver.findElement(By.className("wix-style-svg-font-icons-plus")).click();
             await driver.sleep(2000);
             await driver.findElement(By.id("couponCode")).click();
@@ -36,7 +37,6 @@ import {LOGIN_WIX, PASSWORD_WIX, PRICE} from "./config";
             await driver.findElement(By.id("couponName")).click();
             await driver.findElement(By.id("couponName")).clear();
             await driver.findElement(By.id("couponName")).sendKeys(KEY);
-            //await driver.findElement(By.xpath("//div[@id='root']/div/div[2]/div[2]/div[2]/div/div/div/div/store-manager/div/div[2]/div/coupon/form/section/div/div[2]/div/section/div[2]")).click();
             await driver.findElement(By.id("couponDiscountValue")).click();
             await driver.findElement(By.id("couponDiscountValue")).clear();
             await driver.findElement(By.id("couponDiscountValue")).sendKeys(PRICE);
@@ -45,16 +45,9 @@ import {LOGIN_WIX, PASSWORD_WIX, PRICE} from "./config";
             await driver.sleep(500);
             await driver.findElement(By.className("ui-select-search")).sendKeys(Key.RETURN);
             await driver.sleep(500);
-            // await driver.findElement(By.xpath("//div[@id='root']/div/div[2]/div[2]/div[2]/div/div/div/div/store-manager/div/div[2]/div/coupon/form/section/div/div[2]/div/section")).click();
-            // await driver.findElement(By.xpath("//div[@id='root']/div/div[2]/div[2]/div[2]/div/div/div/div/store-manager/div/div[2]/div/coupon/form/section/div/div[2]/div/section/div[3]/div/div/div")).click();
-            // await driver.findElement(By.xpath("//div[@id='root']/div/div[2]/div[2]/div[2]/div/div/div/div/store-manager/div/div[2]/div/coupon/form/section/div/div[2]/div/section/div[3]/div/div/div[2]/div/div/div[2]/div/div")).click();
-            // await driver.findElement(By.xpath("//div[@id='root']/div/div[2]/div[2]/div[2]/div/div/div/div/store-manager/div/div[2]/div/coupon/form/section/div/div[2]/div/section/div[3]")).click();
-            // await driver.findElement(By.xpath("//div[@id='root']/div/div[2]/div[2]/div[2]/div/div/div/div/store-manager/div/div[2]/div/coupon/form/section/div/div[2]/div/section/div[5]/div/toggleable-input/div/div/div/wix-input/div/input")).click();
-            // await driver.findElement(By.xpath("//div[@id='root']/div/div[2]/div[2]/div[2]/div/div/div/div/store-manager/div/div[2]/div/coupon/form/section/div/div[2]/div/section/div[5]/div/toggleable-input/div/div/div/wix-input/div/input")).clear();
-            // await driver.findElement(By.xpath("//div[@id='root']/div/div[2]/div[2]/div[2]/div/div/div/div/store-manager/div/div[2]/div/coupon/form/section/div/div[2]/div/section/div[5]/div/toggleable-input/div/div/div/wix-input/div/input")).sendKeys("1");
-            // await driver.findElement(By.xpath("//div[@id='root']/div/div[2]/div[2]/div[2]/div/div/div/div/store-manager/div/div[2]/div/coupon/form/section/div/div[2]/div/section/div[5]")).click();
             await driver.findElement(By.xpath("//button[@type='submit']")).click();
             await driver.sleep(2000);
+
         }
 
 
