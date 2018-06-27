@@ -1,3 +1,5 @@
+import {IWebDriverOptionsCookie} from "selenium-webdriver";
+
 export const LOGIN_WIX = 'login';
 export const PASSWORD_WIX = 'password';
 export const PRICE = '100';
@@ -6,3 +8,4 @@ export const COUPON_CODES = [
     'COUPON_NAME2',
     'COUPON_NAME3'
 ];
+export const COOKIES: IWebDriverOptionsCookie[] = [];
