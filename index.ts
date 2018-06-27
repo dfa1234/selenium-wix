@@ -23,7 +23,6 @@ import {COOKIES} from "./datas/cookies";
             await driver.get('http://www.google.com');
             await driver.sleep(5000);
             for(let COOKIE of COOKIES){
-                console.log(COOKIE);
                 await driver.manage().addCookie(COOKIE);
             }
             await driver.get('http://www.wix.com/dashboard');
@@ -40,7 +39,6 @@ import {COOKIES} from "./datas/cookies";
 
                 console.log(KEY);
 
-                await driver.sleep(100);
                 await driver.wait(until.elementIsVisible(driver.findElement(By.className("wix-style-svg-font-icons-plus"))));
                 await driver.sleep(100);
                 await driver.findElement(By.className("wix-style-svg-font-icons-plus")).click();
@@ -62,6 +60,7 @@ import {COOKIES} from "./datas/cookies";
                 await driver.findElement(By.className("ui-select-search")).sendKeys(Key.RETURN);
                 await driver.sleep(100);
                 await driver.findElement(By.xpath("//button[@type='submit']")).click();
+                await driver.sleep(1000);
 
             }
 
@@ -70,9 +69,9 @@ import {COOKIES} from "./datas/cookies";
             console.log(e)
         }finally {
             //await driver.quit();
-            driver.manage().getCookies().then(
-                result => console.log(result)
-            );
+            //driver.manage().getCookies().then(
+                //result => console.log(result)
+            //);
         }
     }
 
