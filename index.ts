@@ -1,4 +1,4 @@
-import {COUPONS} from "./datas/eshop-bp";
+import {COUPONS_BP, COUPONS_SRP} from "./datas/coupons";
 
 require('chromedriver');
 import {By, Key, until} from  'selenium-webdriver';
@@ -6,36 +6,60 @@ import * as webdriver from 'selenium-webdriver';
 import {LOGIN_WIX, PASSWORD_WIX, PRICE} from "./config";
 import {COOKIES} from "./datas/cookies";
 
+
+const couponType = process.argv[2];
+let mCOUPON = [];
+
+if(!couponType || (couponType!=='bp' && couponType!=='srp')){
+    console.log('need coupon type');
+    process.exit(1);
+}else if(couponType==='bp'){
+    mCOUPON = COUPONS_BP;
+}else if(couponType==='srp'){
+    mCOUPON = COUPONS_SRP;
+}
+
 (async function example() {
+
     const driver = new webdriver.Builder().forBrowser('chrome').build();
+
+    async function login(){
+        await driver.get('http://www.wix.com');
+        await driver.findElement(By.id('wm-signin-link')).click();
+        await driver.wait(until.urlContains('user'), 5000);
+        await driver.findElement(By.id('input_0')).sendKeys(LOGIN_WIX, Key.RETURN);
+        await driver.findElement(By.id('input_1')).sendKeys(PASSWORD_WIX, Key.RETURN);
+        await driver.findElement(By.css('.login-btn')).click();
+        console.log('Human: you need to resolve captcha and click Sign in!');
+        driver.manage().getCookies().then(
+            result => console.log(result)
+        );
+    }
+
+    async function reconnect(){
+        await driver.get('http://www.google.com');
+        await driver.sleep(5000);
+        for(let COOKIE of COOKIES){
+            await driver.manage().addCookie(COOKIE);
+        }
+        await driver.get('http://www.wix.com/dashboard');
+        await driver.wait(until.urlContains('dashboard'), 600000);
+        await driver.sleep(5000);
+        await driver.findElement(By.xpath("//div[@id='root']/div/div[2]/div[1]/div[1]/div/div/div/div/div/div[1]/div/div[2]/span[6]/a")).click();
+        await driver.sleep(5000);
+    }
 
     while(true) {
         try {
 
-            // await driver.get('http://www.wix.com');
-            // await driver.findElement(By.id('wm-signin-link')).click();
-            // await driver.wait(until.urlContains('user'), 5000);
-            // await driver.findElement(By.id('input_0')).sendKeys(LOGIN_WIX, Key.RETURN);
-            // await driver.findElement(By.id('input_1')).sendKeys(PASSWORD_WIX, Key.RETURN);
-            // await driver.findElement(By.css('.login-btn')).click();
-            // console.log('Human: you need to resolve captcha and click Sign in!');
+            //no longer need if we have the cookies
+            //await login();
 
-            await driver.get('http://www.google.com');
-            await driver.sleep(5000);
-            for(let COOKIE of COOKIES){
-                await driver.manage().addCookie(COOKIE);
-            }
-            await driver.get('http://www.wix.com/dashboard');
-
-            await driver.wait(until.urlContains('dashboard'), 600000);
-            await driver.sleep(5000);
-            await driver.findElement(By.xpath("//div[@id='root']/div/div[2]/div[1]/div[1]/div/div/div/div/div/div[1]/div/div[2]/span[6]/a")).click();
-            await driver.sleep(5000);
-
+            await reconnect();
 
             //We finally entered to the console!
 
-            for(let KEY of COUPONS){
+            for(let KEY of mCOUPON){
 
                 console.log(KEY);
 
@@ -69,9 +93,6 @@ import {COOKIES} from "./datas/cookies";
             console.log(e)
         }finally {
             //await driver.quit();
-            //driver.manage().getCookies().then(
-                //result => console.log(result)
-            //);
         }
     }
 
