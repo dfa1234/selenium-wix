@@ -1,4 +1,4 @@
-import {COUPONS_BP, COUPONS_SRP1, COUPONS_SRP2, COUPONS_SRP3, COUPONS_SRP4} from "./datas/coupons";
+import {COUPONS} from "./datas/coupons";
 
 require('chromedriver');
 import {By, Key, until} from  'selenium-webdriver';
@@ -6,27 +6,13 @@ import * as webdriver from 'selenium-webdriver';
 import {LOGIN_WIX, PASSWORD_WIX, PRICE} from "./config";
 import {COOKIES} from "./datas/cookies";
 
+// const couponType = process.argv[2];
+// if(!couponType){
+//     console.log('need coupon type');
+//     process.exit(1);
+// }
+let mCOUPONS = COUPONS;
 
-const couponType = process.argv[2];
-let mCOUPON = [];
-
-if(!couponType){
-    console.log('need coupon type');
-    process.exit(1);
-}else if(couponType==='bp'){
-    mCOUPON = COUPONS_BP;
-}else if(couponType==='srp1'){
-    mCOUPON = COUPONS_SRP1;
-}else if(couponType==='srp2'){
-    mCOUPON = COUPONS_SRP2;
-}else if(couponType==='srp3'){
-    mCOUPON = COUPONS_SRP3;
-}else if(couponType==='srp4'){
-    mCOUPON = COUPONS_SRP4;
-}else{
-    console.log('need coupon type');
-    process.exit(1);
-}
 
 (async function example() {
 
@@ -68,7 +54,7 @@ if(!couponType){
 
             //We finally entered to the console!
 
-            for(let KEY of mCOUPON){
+            for(let KEY of mCOUPONS){
 
                 console.log(KEY);
 
